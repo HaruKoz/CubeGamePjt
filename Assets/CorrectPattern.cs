@@ -15,7 +15,7 @@ public class CorrectPattern : MonoBehaviour
     //正解パターンの文字列　クリア回数1までは決め打ちのパターンとする
     //クリア回数2以降はランダムに生成する
     private string[] StrCP = {"000000aaa00aaa00a0a000e00",
-                              "000000aaa00aaa00a0a000e00"};
+                              "000000aaa00aaa00eee000000"};
                               //"a000b00a000aaa000a00c000d"};
 
     //フィールドの一辺の長さ（一辺に並べられるキューブの数）
@@ -147,17 +147,29 @@ public class CorrectPattern : MonoBehaviour
         }
         Debug.Log("1 sb.ToString() = " + sb.ToString());
 
-        //重複しないように0で埋めるマスを決め、置換する
-        int rNum = r.Next(cubeNumMax - 1);
-        for (int i = 0; i < blankNum; i++)
+        //フィールドの縁を一周するように0で埋める
+        for (int i = 0; i < sideNum; i++)
         {
-            while (sb[rNum] == '0')
-            {   //重複しない場所が見つかるまで
-                rNum = r.Next(cubeNumMax - 1);
-            }
-            sb[rNum] = '0';
-
+            sb[i] = '0';
+            sb[cubeNumMax - sideNum + i] = '0';
         }
+        for (int i = 0; i < sideNum - 2; i++)
+        {
+            sb[sideNum * (i + 1)] = '0';
+            sb[sideNum * (i + 1) + sideNum - 1] = '0';
+        }
+
+        //重複しないように0で埋めるマスを決め、置換する
+        //int rNum = r.Next(cubeNumMax - 1);
+        //for (int i = 0; i < blankNum; i++)
+        //{
+        //    while (sb[rNum] == '0')
+        //    {   //重複しない場所が見つかるまで
+        //        rNum = r.Next(cubeNumMax - 1);
+        //    }
+        //    sb[rNum] = '0';
+
+        //}
         Debug.Log("2 sb.ToString() = " + sb.ToString());
 
         return sb.ToString();
